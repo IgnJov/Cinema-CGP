@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                 if(item.getItemId() == R.id.menuNav_home){
                     selectedFragment = new HomeFragment();
                 }else if(item.getItemId() == R.id.menuNav_maps){
-                    selectedFragment = new HomeFragment();
+                    selectedFragment = new CinemaFragment();
                 }else if(item.getItemId() == R.id.menuNav_reservation){
                     selectedFragment = new HomeFragment();
                 }
@@ -50,6 +50,13 @@ public class MainActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, selectedFragment).commit();
 
                 return true;
+            }
+        });
+
+        bottomNavigationView.setOnItemReselectedListener(new NavigationBarView.OnItemReselectedListener() {
+            @Override
+            public void onNavigationItemReselected(@NonNull MenuItem item) {
+
             }
         });
 

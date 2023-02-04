@@ -10,4 +10,9 @@
         android:name="com.example.uasmobileprogramming.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/cinemaFragment"
+        android:name="com.example.uasmobileprogramming.CinemaFragment"
+        android:label="fragment_cinema"
+        tools:layout="@layout/fragment_cinema" />
 </navigation>

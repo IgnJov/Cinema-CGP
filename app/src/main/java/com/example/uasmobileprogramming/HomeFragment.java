@@ -126,11 +126,13 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupRecyclerView(List<Result> results){
-        recyclerView_movie = getView().findViewById(R.id.recyclerView_movie);
-        RecyclerViewAdapterMovie adapter = new RecyclerViewAdapterMovie(getActivity());
-        adapter.setDataset(results);
-        recyclerView_movie.setAdapter(adapter);
-        recyclerView_movie.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter.notifyDataSetChanged();
+        if(getView().findViewById(R.id.recyclerView_movie) != null){
+            recyclerView_movie = getView().findViewById(R.id.recyclerView_movie);
+            RecyclerViewAdapterMovie adapter = new RecyclerViewAdapterMovie(getActivity());
+            adapter.setDataset(results);
+            recyclerView_movie.setAdapter(adapter);
+            recyclerView_movie.setLayoutManager(new LinearLayoutManager(getActivity()));
+            adapter.notifyDataSetChanged();
+        }
     }
 }

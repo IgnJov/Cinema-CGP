@@ -16,6 +16,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     ImageView imageView_poster;
     TextView textView_title;
     TextView textView_overview;
+    TextView textView_releaseDate;
     ExtendedFloatingActionButton floatingActionButton;
 
     @Override
@@ -28,11 +29,13 @@ public class MovieDetailActivity extends AppCompatActivity {
         imageView_poster = findViewById(R.id.imageView_detail_poster);
         textView_title = findViewById(R.id.textView_detail_title);
         textView_overview = findViewById(R.id.textView_detail_overview);
+        textView_releaseDate = findViewById(R.id.textView_detail_releaseDate);
         floatingActionButton = findViewById(R.id.extended_fab_reserve);
 
         Picasso.get().load("https://image.tmdb.org/t/p/w342" + movie.getPosterPath()).into(imageView_poster);
         textView_title.setText(movie.getOriginalTitle());
         textView_overview.setText(movie.getOverview());
+        textView_releaseDate.setText(movie.getReleaseDate());
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

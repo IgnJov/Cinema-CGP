@@ -2,11 +2,13 @@ package com.example.uasmobileprogramming;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,7 +44,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements RecyclerViewInterface {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -128,11 +130,40 @@ public class HomeFragment extends Fragment {
     private void setupRecyclerView(List<Result> results){
         if(getView().findViewById(R.id.recyclerView_movie) != null){
             recyclerView_movie = getView().findViewById(R.id.recyclerView_movie);
-            RecyclerViewAdapterMovie adapter = new RecyclerViewAdapterMovie(getActivity());
+            RecyclerViewAdapterMovie adapter = new RecyclerViewAdapterMovie(getActivity(), HomeFragment.this);
             adapter.setDataset(results);
+            recyclerView_movie.addItemDecoration(new DividerItemDecoration(recyclerView_movie.getContext(), DividerItemDecoration.VERTICAL));
             recyclerView_movie.setAdapter(adapter);
             recyclerView_movie.setLayoutManager(new LinearLayoutManager(getActivity()));
             adapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Retrofit retrofit = new Retrofit.Builder().
+                baseUrl("https://api.themoviedb.org/3/movie/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ImdbAPI imdbAPI = retrofit.create(ImdbAPI.class);
+
+        Call<MovieQuery> call = imdbAPI.getMovies();
+
+        call.enqueue(new Callback<MovieQuery>() {
+            @Override
+            public void onResponse(Call<MovieQuery> call, Response<MovieQuery> response) {
+                MovieQuery movieQuery = response.body();
+
+                Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+                intent.putExtra("selectedMovie", movieQuery.getResults().get(position));
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<MovieQuery> call, Throwable t) {
+                Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

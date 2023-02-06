@@ -43,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = new HomeFragment();
                 }else if(item.getItemId() == R.id.menuNav_maps){
                     selectedFragment = new CinemaFragment();
-                }else if(item.getItemId() == R.id.menuNav_reservation){
-                    selectedFragment = new HomeFragment();
                 }
 
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, selectedFragment).commit();

@@ -9,8 +9,5 @@
         android:id="@+id/menuNav_maps"
         android:title="Cinema"
         android:icon="@drawable/cinema"/>
-    <item
-        android:id="@+id/menuNav_reservation"
-        android:title="Reservation"
-        android:icon="@drawable/reservation"/>
+
 </menu>

@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -18,9 +20,11 @@ import java.util.List;
 public class RecyclerViewAdapterMovie extends RecyclerView.Adapter<RecyclerViewAdapterMovie.MyViewHolder>{
     Context context;
     List<Result> movieList;
+    RecyclerViewInterface recyclerViewInterface;
 
-    public RecyclerViewAdapterMovie(Context context){
+    public RecyclerViewAdapterMovie(Context context, RecyclerViewInterface recyclerViewInterface){
         this.context = context;
+        this.recyclerViewInterface = recyclerViewInterface;
     }
 
     public void setDataset(List<Result> movieList){
@@ -33,7 +37,7 @@ public class RecyclerViewAdapterMovie extends RecyclerView.Adapter<RecyclerViewA
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.row_movie, parent, false);
 
-        return new RecyclerViewAdapterMovie.MyViewHolder(view);
+        return new RecyclerViewAdapterMovie.MyViewHolder(view, recyclerViewInterface);
     }
 
     @Override
@@ -51,12 +55,26 @@ public class RecyclerViewAdapterMovie extends RecyclerView.Adapter<RecyclerViewA
     public static class MyViewHolder extends RecyclerView.ViewHolder{
         ImageView imageView_poster;
         TextView textView_title;
+        CardView cardView;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
 
             imageView_poster = itemView.findViewById(R.id.imageView_poster);
             textView_title = itemView.findViewById(R.id.textView_title);
+            cardView = itemView.findViewById(R.id.cardView_rowMovie);
+
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(recyclerViewInterface != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            recyclerViewInterface.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 }
